@@ -6,6 +6,9 @@ import '@fontsource/roboto/300.css'
 import '@fontsource/roboto/400.css'
 import '@fontsource/roboto/500.css'
 import '@fontsource/roboto/700.css'
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { AuthPage } from './pages/auth-page';
+import { RegPage } from './pages/registration-page';
 
 
 
@@ -13,7 +16,12 @@ import '@fontsource/roboto/700.css'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+
+        <App>
+
+      </App>
+    </BrowserRouter>
   </React.StrictMode>,
 
 

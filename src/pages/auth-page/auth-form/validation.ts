@@ -1,15 +1,15 @@
 const REQUIRED_FIELD = 'Обязательно для заполнения';
 
-export const loginValidation = {
+export const emailValidation = {
     required: REQUIRED_FIELD,
     validate: (value: string) => {
-        if(value.match(/[а-яА-Я]/)) {
-            return 'Логин не может содержать русские буквы'
+        if(value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)) {
+            return 'Неправильный адрес электронной почты'
         }
-
+  
         return true;
     }
-};
+  };
 
 export const passwordValidation = {
     required: REQUIRED_FIELD,

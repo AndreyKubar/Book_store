@@ -3,16 +3,28 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useForm, SubmitHandler, Controller, useFormState } from "react-hook-form";
-import './auth-form.css';
-import { loginValidation, passwordValidation } from './validation';
+import './AuthForm.styled.ts';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+import { emailValidation, passwordValidation } from './validation';
+import { Container, SForm, Subtitle, SButton } from './AuthForm.styled';
 
 interface ISignInForm {
-    login: string;
+    email: string;
     password: string;
 }
 
+
+const schema = yup.object({
+    email: yup.string().email().required(),
+    password: yup.string().required("Please provide a valid password"),
+  }).required();
+  
+
 export const AuthForm: React.FC = () => {
-    const { handleSubmit, control } = useForm<ISignInForm>();
+    const {register, handleSubmit, control } = useForm<ISignInForm>({
+        resolver: yupResolver(schema)
+    });
     const { errors } = useFormState({ 
         control
     })
@@ -20,33 +32,39 @@ export const AuthForm: React.FC = () => {
     const onSubmit: SubmitHandler<ISignInForm> = data => console.log(data);
 
     return (
-        <div className="auth-form">
+        <Container>
             <Typography variant="h4" component="div">
                 Войдите
             </Typography>
-            <Typography variant="subtitle1" gutterBottom component="div" className="auth-form__subtitle">
+            <Subtitle>
+            <Typography variant="subtitle1" gutterBottom component="div" >
                 Чтобы получить доступ
             </Typography>
-            <form className="auth-form__form" onSubmit={handleSubmit(onSubmit)}>
+            </Subtitle>
+            <SForm onSubmit={handleSubmit(onSubmit)}>
                 <Controller
+                    {...register("email")}
+
                     control={control}
-                    name="login"
-                    rules={loginValidation}
+                    name="email"
+                    rules={emailValidation}
                     render={({ field }) => (
                         <TextField
-                            label="Логин"
+                            label="Email"
                             onChange={(e) => field.onChange(e)}
                             value={field.value}
                             fullWidth={ true }
                             size="small"
                             margin="normal"
                             className="auth-form__input"
-                            error={!!errors.login?.message}
-                            helperText={ errors?.login?.message }
+                            error={!!errors.email?.message}
+                            helperText={ errors?.email?.message }
                         />
                     )}
                 />
                 <Controller
+                    {...register("password")}
+
                     control={control}
                     name="password"
                     rules={passwordValidation}
@@ -76,16 +94,16 @@ export const AuthForm: React.FC = () => {
                 >
                     Войти
                 </Button>
-            </form>
+            </SForm>
 
-            <div className="auth-form__footer">
+            <SButton>
                 <Typography variant="subtitle1" component="span">
                     Нет аккаунта?{" "}
                 </Typography>
-                <Typography variant="subtitle1" component="span" sx={{ color: 'blue'}}>
+                <Typography variant="subtitle1" component="span" >
                     Зарегистрируйтесь
                 </Typography>
-            </div>
-        </div>
+            </SButton>
+        </Container>
     )
 }
