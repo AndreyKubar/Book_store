@@ -40,13 +40,28 @@ export const userAuthSlice = createSlice({
       builder.addCase(tokenAuthThunk.pending, (state, action) => {
         return { ...state, isCompleted: false };
       })
+      builder.addCase(tokenAuthThunk.rejected, (state, action) => {
+        return { ...state, isCompleted: false };
+      })
       builder.addCase(signupThunk.fulfilled, (state, action) => {
         return { ...state, isCompleted: true };
       })
       builder.addCase(signupThunk.pending, (state, action) => {
-        return { ...state, isCompleted: true };
+        return { ...state, isCompleted: false };
       })
-    },
+      builder.addCase(signupThunk.rejected, (state, action) => {
+        return { ...state, isCompleted: false };
+      })
+      builder.addCase(signinThunk.fulfilled, (state, action) => {
+        return {...state, isCompleted: true}
+      })
+      builder.addCase(signinThunk.pending, (state, action) => {
+        return {...state, isCompleted: false}
+      })
+      builder.addCase(signinThunk.rejected, (state, action) => {
+        return {...state, isCompleted: false}
+      })
+    }, 
   })
 
       

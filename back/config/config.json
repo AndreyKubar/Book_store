@@ -7,16 +7,16 @@
     "dialect": "postgres"
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
+    "username": "macbook",
+    "password": "password",
+    "database": "online_store",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
+    "username": "macbook",
+    "password": "password",
+    "database": "online_store",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }

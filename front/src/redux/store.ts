@@ -8,7 +8,6 @@ const store = configureStore({
   reducer: {
     userAuth: userAuthSlice,
     userData: userDataSlice,
-
   },
 });
 

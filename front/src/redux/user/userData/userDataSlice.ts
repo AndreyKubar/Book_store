@@ -6,6 +6,7 @@ import {
   passwordChangeAction,
   userDataChangeAction,
 } from "./userDataActions";
+import { getUserDataThunk } from "./userDataThunk";
 
 export const initialState: IUserState = {
   user: {
@@ -13,7 +14,7 @@ export const initialState: IUserState = {
     dob: "",
     email: "",
   },
-  isCompleted: false,
+  isCompleted: true,
   avatarPath: "",
   error: {
     type: "",
@@ -34,26 +35,18 @@ export const userDataSlice = createSlice({
     getData: getUserDataAction,
     clearData: clearDataAction,
   },
-  extraReducers: {
-    [`userData/getData`]: (state, action) => {
-      return {
-        ...state,
-        isCompleted: true,
-      };
-    },
-    [`userData/getData/fulfilled`]: (state, action) => {
-      return {
-        ...state,
-        isCompleted: true,
-      };
-    },
-    [`userData/getData/pending`]: (state, action) => {
-      return {
-        ...state,
-        isCompleted: false,
-      };
-    },
-  },
+    extraReducers: (builder) => {
+      builder.addCase(getData, (state, action) => {
+        return { ...state, isCompleted: true };
+      })
+      builder.addCase(getUserDataThunk.fulfilled, (state, action) => {
+        return { ...state, isCompleted: true };
+      })
+      builder.addCase(getUserDataThunk.pending, (state, action) => {
+        return { ...state, isCompleted: false };
+
+      })
+    }
 });
 
 export const { dataChange, passwordChange, avatarChange, getData, clearData } =

@@ -43,7 +43,7 @@ export const signupThunk = createAsyncThunk<boolean, IUserSignupDataApi>(
 
       if (res.data.error.type === "error") {
         dispatch(error(res.data.error));
-        return false
+        return true
       }
       if (res.data.error.type === "success") {
         localStorage.setItem('token', res.data.user.token!);
@@ -53,22 +53,24 @@ export const signupThunk = createAsyncThunk<boolean, IUserSignupDataApi>(
       return true
 
     } catch (error: any) {
-      return rejectWithValue(false)
+      return rejectWithValue(true)
       console.log("signupThunk error", error.response.message);
     }
   }
 
 );
 
-export const tokenAuthThunk = createAsyncThunk<void, tokenType>(
+export const tokenAuthThunk = createAsyncThunk<boolean, tokenType>(
   "userAuth/tokenCheck",
-  async (data, { dispatch }) => {
+  async (data, { dispatch, rejectWithValue }) => {
     try {
       const res: AxiosResponse<IResAuthForToken> = await tokenAuthApi(data);
       if (localStorage.getItem("token")) {
         dispatch(tokenAuth(res.data));
       }
+      return true
     } catch (error: any) {
+      return rejectWithValue(false)
       console.log("tokenAccessCheck error", error.response.message);
     }
   }

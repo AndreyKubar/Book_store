@@ -7,7 +7,7 @@ import {
 } from "../../../types/user/user.types";
 import { initialState } from "./userAuthSlice";
 
-// user auth actions
+
 export const signinAction: CaseReducer<IUserState, PayloadAction<IUserAuth>> = (
   state,
   action
@@ -53,5 +53,5 @@ export const tokenAuthAction: CaseReducer<
   ...state,
   user: action.payload.user,
   isSignIn: true,
-  error: action.payload.error,
+  error: action.payload.error
 });

@@ -18,7 +18,7 @@ import UserWishlist from "./components/Userpage/Wishlist/UserWishlist";
 import NotFound from "./components/NotFound/NotFound";
 import { userGetData } from "./api/user.api";
 
-const  Home = () => <h1>Home</h1>
+// const  Home = () => <h1>Home</h1>
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -45,70 +45,69 @@ const App: React.FC = () => {
     }
   })
 
-  if (!isCompleted) {
-    return <h2>Loading</h2>;
-  }
+  // if (!isCompleted) {
+  //   return <h2>Loading</h2>;
+  // }
 
   const defaultPrivateRouteProps: Omit<PrivateRouteProps, "outlet"> = {
     isAuthenticated: isSignIn,
     authenticationPath: "/auth",
   };
-
-  return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-      <Route index element={<Home />} />
-        <Route path="auth" element={<Auth />} />
-        <Route
-          path="userpage"
-          element={
-            <PrivateRoute {...defaultPrivateRouteProps} outlet={<UserPage />} />
-          }
-        >
+    return (
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route path="auth" element={<Auth />} />
           <Route
-            path="profile"
+            path="userpage"
             element={
-              <PrivateRoute
-                {...defaultPrivateRouteProps}
-                outlet={<UserProfile />}
-              />
+              <PrivateRoute {...defaultPrivateRouteProps} outlet={<UserPage />} />
             }
-          />
-          <Route
-            path="orders"
-            element={
-              <PrivateRoute
-                {...defaultPrivateRouteProps}
-                outlet={<UserOrders />}
-              />
-            }
-          />
-          <Route
-            path="wishlist"
-            element={
-              <PrivateRoute
-                {...defaultPrivateRouteProps}
-                outlet={<UserWishlist />}
-              />
-            }
-          />
-          <Route
-            path="cart"
-            element={
-              <PrivateRoute
-                {...defaultPrivateRouteProps}
-                outlet={<UserCart />}
-              />
-            }
-          />
+          >
+            <Route
+              path="profile"
+              element={
+                <PrivateRoute
+                  {...defaultPrivateRouteProps}
+                  outlet={<UserProfile />}
+                />
+              }
+            />
+            <Route
+              path="orders"
+              element={
+                <PrivateRoute
+                  {...defaultPrivateRouteProps}
+                  outlet={<UserOrders />}
+                />
+              }
+            />
+            <Route
+              path="wishlist"
+              element={
+                <PrivateRoute
+                  {...defaultPrivateRouteProps}
+                  outlet={<UserWishlist />}
+                />
+              }
+            />
+            <Route
+              path="cart"
+              element={
+                <PrivateRoute
+                  {...defaultPrivateRouteProps}
+                  outlet={<UserCart />}
+                />
+              }
+            />
+          </Route>
         </Route>
-      </Route>
 
-      <Route path="*" element={<Layout />}>
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
-  );
-};
+        <Route path="*" element={<Layout />}>
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    );
+  };
+
 
 export default App;

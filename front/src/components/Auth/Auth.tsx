@@ -9,7 +9,6 @@ import { Location, useLocation, useNavigate } from "react-router-dom";
 import { Button, Grid, TextField, Link } from "@mui/material";
 import { Box } from "@mui/system";
 import { AuthDiv, AuthHeader } from "./Auth.styled";
-import {  createAsyncThunk, unwrapResult } from '@reduxjs/toolkit'
 import { signinApi } from "../../api/user.api";
 
 
@@ -25,9 +24,6 @@ function Auth() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // console.log('>>>', location)
- 
-  //     const fromPage = location.state?.from?.pathname;
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (ev) => {
     ev.preventDefault();
@@ -39,41 +35,16 @@ function Auth() {
 
     } else {
       const res = await dispatch(signupThunk(data));
+      console.log(res);
+      
     }
     navigate("/");
 
   };
   
 
-  //  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (ev) => {
-  //   ev.preventDefault();
 
-  //   const onClick = async () => {
-  //     try {
-  //       const originalPromiseResult = await dispatch(signinThunk({email: data.email, password: data.password})).unwrap()
-  
-
-  //   if (authUi.isLogin) {
-  //     dispatch(signinThunk({ email: data.email, password: data.password }));
-  //     navigate("/");
-
-  //   } else {
-  //     dispatch(signupThunk(data));
-  //     navigate("/");
-
-  //   }
-  // };
-
-
-
- 
-
-
-
-
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
-    ev
-  ) => {
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (ev) => {
     setData({ ...data, [ev.currentTarget.name]: ev.currentTarget.value });
   };
 

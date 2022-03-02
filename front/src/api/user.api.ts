@@ -9,13 +9,13 @@ import {
 import api from "./axios";
 
 export const signinApi = async (data: IUserSigninDataApi) => {
-  const response = await api.post("/auth/signin", { data });
+  const response = await api.post("/auth/signin", data);
 
   return response;
 };
 
 export const signupApi = async (data: IUserSignupDataApi) => {
-  const response = await api.post("/auth/signup", { data });
+  const response = await api.post("/auth/signup", data);
 
   return response;
 };

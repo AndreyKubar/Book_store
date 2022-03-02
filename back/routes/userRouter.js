@@ -23,6 +23,9 @@ router.post('/auth/signup', validator.body(signUpSchema), AuthController.signUp)
 router.post('/auth/signin', validator.body(signInSchema), AuthController.signIn);
 
 
+// router.post('/auth/signup',  AuthController.signUp);
+// router.post('/auth/signin',  AuthController.signIn);
+
 
 
 module.exports = router;
