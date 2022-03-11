@@ -1,51 +1,66 @@
-import {
-  IPasswordChangeData,
-  IUser,
-  IUserSigninDataApi,
-  IUserSignupDataApi,
-  // IUserState,
-  tokenType,
-} from "../types/user/user.types";
-import api from "./axios";
+import { api } from "./axios";
+import jwt_decode from "jwt-decode";
 
-export const signinApi = async (data: IUserSigninDataApi) => {
-  const response = await api.post("/auth/signin", data);
-
-  return response;
+export const signup = async (
+  email: string,
+  password: string,
+  name: string
+) => {
+  const response = await api.post("api/user/signup", {
+    email,
+    password,
+    name,
+  });
+  localStorage.setItem("accessToken", response.data.token);
+  const { data } = response;
+  const token_decode: any = jwt_decode(data.token);
+  return token_decode.user;
 };
 
-export const signupApi = async (data: IUserSignupDataApi) => {
-  const response = await api.post("/auth/signup", data);
-
-  return response;
+export const signin = async (email: string, password: string) => {
+  const response = await api.post("api/user/signin", {
+    email,
+    password,
+  });
+  localStorage.setItem("accessToken", response.data.token);
+  const { data } = response;
+  const token_decode: any = jwt_decode(data.token);
+  return token_decode.user;
 };
 
-export const tokenAuthApi = async (data: tokenType) => {
-  const response = await api.get("/auth/tokenauth", { data });
-
-  return response;
+export const check = async () => {
+  const response = await api.get("api/user/auth");
+  const { data } = response;
+  const token_decode: any = jwt_decode(data.token);
+  return token_decode.user;
 };
 
-export const userDataChange = async (data: IUser) => {
-  const response = await api.put("/userdata/update", { data });
+export const updatePassword = async (
+  oldPassword: string,
+  newPassword: string
+) => {
+  console.log(oldPassword, newPassword);
 
-  return response;
+  const reqData = new FormData();
+  reqData.append("oldPassword", oldPassword);
+  reqData.append("newPassword", newPassword);
+  const response = await api.put("api/user/updatepassword", reqData);
+
+  console.log(response);
+  localStorage.setItem("accessToken", response.data.token);
+  const { data } = response;
+  const token_decode: any = jwt_decode(data.token);
+  return token_decode.user;
 };
 
-export const userPasswordChange = async (data: IPasswordChangeData) => {
-  const response = await api.put("/userdata/passwordchange", { data });
-
-  return response;
-};
-
-export const userSetAvatar = async (data: FormData) => {
-  const response = await api.post("/userdata/avatarchange", data);
-
-  return response;
-};
-
-export const userGetData = async () => {
-  const response = await api.get("/user");
-
-  return response;
+export const updateUser = async (name: string, file: File) => {
+  console.log(file);
+  const reqData = new FormData();
+  reqData.append("name", name);
+  reqData.append("file", file);
+  const response = await api.put("api/user/update", reqData);
+  localStorage.setItem("accessToken", response.data.token);
+  const { data } = response;
+  const token_decode: any = jwt_decode(data.token);
+  return token_decode.user;
 };

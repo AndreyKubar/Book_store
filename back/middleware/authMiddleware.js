@@ -1,29 +1,34 @@
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 module.exports = function (req, res, next) {
   if (req.method === "OPTIONS") {
-    next()
-  };
-
+    next();
+  }
   try {
-    const token = req.headers.authorization.split(' ')[1];
+    //Bearer eyJhbGci...............
+    const token = req.headers.authorization.split(" ")[1];
     if (!token) {
       return res.status(401).json({
-        message: 'User is not authorized'
+        status: false,
+        message: "No token",
       });
-    };
-
-    const decodedData = jwt.verify(token, process.env.SECRET_KEY);
-    req.user = decodedData
+    }
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    // !!! putting {user} from token into request
+    req.user = decoded.user;
+    console.log(
+      "From middleware decode user token:",
+      req.user.id,
+      req.user.email
+    );
     next();
-
   } catch (e) {
-    return res.status(401).json({
-      message: 'User is not authorized'
+    res.status(401).json({
+      status: false,
+      message: "Token authentication failed",
     });
-  };
+  }
 };
-
 
 
 

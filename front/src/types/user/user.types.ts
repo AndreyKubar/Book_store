@@ -1,53 +1,30 @@
-
-
-export interface IUserState {
-  user: IUser;
-  isSignIn?: boolean;
-  isCompleted?: boolean;
-  avatarPath?: string;
-  error: IResError;
+export enum UserActionTypes {
+  SET_ISAUTH = "SET_ISAUTH",
+  SET_USER = "SET_USER",
 }
+
+interface ISetIsAuthAction {
+  type: UserActionTypes.SET_ISAUTH;
+  payload: boolean;
+}
+
+interface ISetUserAction {
+  type: UserActionTypes.SET_USER;
+  payload: IUser;
+}
+
+export type UserAction = ISetIsAuthAction | ISetUserAction;
 
 export interface IUser {
-  fullname: string;
-  dob?: string;
+  id: number;
   email: string;
-  token?: string;
+  name: string;
+  role: string;
+  img: string;
 }
 
-export interface IResAuthForToken {
-  user: IUser;
-  error: IResError;
-}
-
-export interface IResError {
-  code?: string;
-  type: string;
-  value: string;
-}
-
-export interface IUserSigninDataApi {
-  email: string;
-  password: string;
-}
-
-export interface IUserSignupDataApi {
-  fullname: string;
-  dob: string,
-  email: string;
-  password: string;
-}
-
-export interface IUserAuth {
-  user: IUser,
-  error: IResError
-}
-
-export type tokenType = string | null;
-
-export interface IPasswordChangeData {
-  passwordFirst: string;
-  passwordSecond: string;
-  password: string;
-
+export interface IUserState {
+  isAuth: boolean;
+  user: null | IUser;
+  error: null | string | object;
 }

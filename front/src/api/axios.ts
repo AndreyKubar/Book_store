@@ -1,27 +1,20 @@
-import Axios from "axios";
-const api = Axios.create({
-  baseURL: "http://localhost:4000/api",
+import axios, { AxiosRequestConfig } from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:4000/",
 });
 
-api.interceptors.request.use(async (url: any) => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    url.headers.common.Authorization = `Bearer ${token}`;
-  } else {
-    url.headers.common.Authorization = "";
+const authInterceptor = (config: AxiosRequestConfig): AxiosRequestConfig => {
+  const token = localStorage.getItem("accessToken");
+  if (token != null) {
+    config.headers = {
+      ...config.headers,
+      Authorization: `Bearer ${token}`,
+    };
   }
+  return config;
+};
 
-  return url;
-});
+api.interceptors.request.use(authInterceptor);
 
-api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => {
-    return error.response;
-  }
-);
-
-export default api;
+export { api };
